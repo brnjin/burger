@@ -1,0 +1,85 @@
+<h1>Burgers!</h1>
+
+
+<!-- Div box to contain burgers that are not eaten -->
+<h2>Time to eat!</h2> 
+
+<ul>
+  {{#each burgers}}
+    {{#unless devoured}}
+      {{> burgers/burger-block devoured=true}}
+    {{/unless}}
+  {{/each}}
+</ul>
+
+<!-- Div box that contains burgers that are eaten -->
+<h2>Already Eaten</h2>
+
+<ul>
+  {{#each burgers}}
+    {{#if devoured}}
+    {{/if}}
+  {{/each}}
+</ul>
+
+<!-- Form box to get new burgers -->
+<form class="create-burger">
+
+  <div class="form-group">
+    <label for="nameOfNewBurger">Burger Name:</label>
+    <input type="text" id="nameOfNewBurger" name="name">
+  </div>
+
+  <div class="form-group">
+    <label for="slee">Sleepy?</label><br>
+    <input type="radio" name="sleepy" value="1" checked> Sleepy!
+  <button type="submit">Submit</button>
+</form>
+
+<li>
+  {{name}}
+
+  <button class="to-Eat" data-id="{{id}}" data-haveEaten="{{devour}}"> Devour it! </button>
+</li>
+
+<script type="text/javascript">
+  $(function() {
+  $(".to-Eat").on("click", function(event) {
+    var id = $(this).data("id");
+    var haveEaten = $(this).data("haveEaten");
+
+    var isDevoured = {
+      devoured: haveEaten
+    };
+
+    $.ajax("/api/cats/" + id, {
+      type: "PUT",
+      data: isDevoured
+    }).then(
+      function() {
+        console.log("Is the burger eaten?", haveEaten);
+        location.reload();
+      }
+    )
+  });
+});
+
+$(".create-burger").on("submit", function(event) {
+  event.preventDefault();
+
+  var newBurger = {
+    burger_name: $("#nameOfNewBurger").val().trim(),
+    devoured: false
+  };
+
+  $.ajax("/api/burgers", {
+    type:"POST",
+    data: newBurger
+  }).then(
+    function() {
+      console.log("You just cooked up a new burger!");
+      location.reload();
+    }
+  )
+})
+</script>
