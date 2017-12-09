@@ -27,3 +27,10 @@ var routes = require('./controllers/burgers_controller.js');
 app.use('/', routes);
 
 app.listen(PORT);
+
+//Problem with PUT in the burgers.js file 
+	//chainging the "devoured" from false to true 
+	//updating the database with the new "devoured" 
+	//using GET to see which part of the list the burger belongs to 
+	//fix the interface by making it cleaner 
+	
