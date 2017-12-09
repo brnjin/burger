@@ -7,7 +7,6 @@
 <ul>
   {{#each burgers}}
     {{#unless devoured}}
-      {{> burgers/burger-block devoured=true}}
     {{/unless}}
   {{/each}}
 </ul>
@@ -27,19 +26,19 @@
 
   <div class="form-group">
     <label for="nameOfNewBurger">Burger Name:</label>
-    <input type="text" id="nameOfNewBurger" name="name">
+    <input type="text" id="nameOfNewBurger" name="burger_name">
   </div>
 
   <div class="form-group">
     <label for="slee">Sleepy?</label><br>
-    <input type="radio" name="sleepy" value="1" checked> Sleepy!
+    <input type="radio" name="devoured" value="1" checked> Eat!
   <button type="submit">Submit</button>
 </form>
 
 <li>
   {{name}}
 
-  <button class="to-Eat" data-id="{{id}}" data-haveEaten="{{devour}}"> Devour it! </button>
+  <button class="to-Eat" data-id="{{id}}" data-haveEaten="{{devoured}}"> Devour it! </button>
 </li>
 
 <script type="text/javascript">
@@ -52,7 +51,7 @@
       devoured: haveEaten
     };
 
-    $.ajax("/api/cats/" + id, {
+    $.ajax("/api/burgers/" + id, {
       type: "PUT",
       data: isDevoured
     }).then(
