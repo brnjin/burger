@@ -21,9 +21,9 @@ router.post("/api/burgers", function(req, res) {
   burger.create([
     "burger_name", "devoured"
   ], [
-    req.body.name, false
+    req.body.burger_name, false
   ], function(result) {
-  		burger.ll(function(data) {
+  		burger.all(function(data) {
   			var hbsObject = {
   				burgers: data
   			};
@@ -32,11 +32,15 @@ router.post("/api/burgers", function(req, res) {
   });
 });
 
-router.put('/api/burgers/update', function(req, res){
-	burger.update(req.body.id, function(result){
-		console.log("router.put", result);
-		res.redirect('/');
-	});	
+router.put('/api/burgers/:id', function(req,res){
+	var condition = "ID = " + req.params.id;
+	console.log(condition);
+
+	burger.update("burgers",'devoured',req.body.devoured,condition,
+		function(data){
+				res.json({id: data.insertId});
+	})
+
 });
 
 //Export to server.js 

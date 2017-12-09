@@ -1,89 +1,57 @@
-<h1>Burgers!</h1>
+<div class="container">
+    
+    <div class="row">
+        <h1 class="text-center"> Burger time!! </h1>
+<!--         <img  class="img-center center-block" src="/assets/img/burger.jpg" width="200"> -->
+    </div>
+
+    <div class="row">
+        <div class='text-center'>
+            <p> Click to eat burger </p>
+        </div>
+    </div>
 
 
-<!-- Div box to contain burgers that are not eaten -->
-<h2>Time to eat!</h2> 
+  <div class ="row">
+    <div class = "col-md-6">
+      <h2>Burgers to eat</h2>
+      <ol>
+        {{#each burgers}}
+          {{#unless this.devoured}}
+          <li>
+            <p><span class="label"></span> {{this.burger_name}} <button id="to-Eat" data-id="{{this.ID}}" class="btn btn-primary btn-space">Devour Burger</button></p>
+            
+          </li>
+            {{/unless}}
+          {{/each}}
+            
+      </ol>
+    </div>
 
-<ul>
-  {{#each burgers}}
-    {{#unless devoured}}
-      <li>
-        {{name}}
-
-      <button class="to-Eat" data-id="{{id}}" data-haveEaten="{{devoured}}"> Devour it! </button>
-      </li>
-    {{/unless}}
-  {{/each}}
-</ul>
-
-<!-- Div box that contains burgers that are eaten -->
-<h2>Already Eaten</h2>
-
-<ul>
-  {{#each burgers}}
-    {{#if devoured}}
-      <li>
-        {{name}}
-
-      <button class="to-Eat" data-id="{{id}}" data-haveEaten="{{devoured}}"> Devour it! </button>
-      </li>
-    {{/if}}
-  {{/each}}
-</ul>
-
-<!-- Form box to get new burgers -->
-<form class="create-burger">
-
-  <div class="form-group">
-    <label for="nameOfNewBurger">Burger Name:</label>
-    <input type="text" id="nameOfNewBurger" name="burger_name">
+    <div class = "col-md-6">
+      <h2>Burger Devoured</h2>
+      <ol>
+        {{#each burgers}}
+          {{#if this.devoured}}
+          <li>
+            <p><span class="label"></span> {{this.id}}</p>
+            <p><span class="label"></span> {{this.burger_name}}</p>
+          </li>
+            {{/if}}
+          {{/each}}
+            
+      </ol>
+    </div>
   </div>
-
-  <div class="form-group">
-    <label for="slee">Sleepy?</label><br>
-    <input type="radio" name="devoured" value="1" checked> Eat!
-  <button type="submit">Submit</button>
-</form>
-
-
-<script type="text/javascript">
-  $(function() {
-  $(".to-Eat").on("click", function(event) {
-    var id = $(this).data("id");
-    var haveEaten = $(this).data("haveEaten");
-
-    var isDevoured = {
-      devoured: haveEaten
-    };
-
-    $.ajax("/api/burgers/" + id, {
-      type: "PUT",
-      data: isDevoured
-    }).then(
-      function() {
-        console.log("Is the burger eaten?", haveEaten);
-        location.reload();
-      }
-    )
-  });
-});
-
-$(".create-burger").on("submit", function(event) {
-  event.preventDefault();
-
-  var newBurger = {
-    burger_name: $("#nameOfNewBurger").val().trim(),
-    devoured: false
-  };
-
-  $.ajax("/api/burgers", {
-    type:"POST",
-    data: newBurger
-  }).then(
-    function() {
-      console.log("You just cooked up a new burger!");
-      location.reload();
-    }
-  )
-})
-</script>
+      <div class="row">   
+        <div class="form-group text-center col-md-6 col-md-offset-3">
+            <label for="nameOfNewBurger"></label>
+            <textarea class="form-control input-sm " rows="5" id="nameOfNewBurger"></textarea>
+        </div>
+    </div>
+    <div class="row">
+        <div class="text-center">
+            <button type="button" class="btn btn-primary" id="submit">Submit</button>
+        </div>
+    </div>
+</div>

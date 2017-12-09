@@ -10,7 +10,7 @@ var app = express();
 //serve static content for the app from the "public" directory in the application direc
 app.use(express.static(__dirname + '/public'));
 
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({extended: false}));
 
 // override with POST having ?_method=PUT
 app.use(methodOverride("_method"));
@@ -26,4 +26,4 @@ var routes = require('./controllers/burgers_controller.js');
 
 app.use('/', routes);
 
-app.listen(port);
+app.listen(PORT);
